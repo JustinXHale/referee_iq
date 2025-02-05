@@ -1,103 +1,145 @@
 import 'package:flutter/material.dart';
 import 'sofia_screen.dart';
 
+/// Custom Google Sign-In Button widget (inline)
+class GoogleSignInButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  const GoogleSignInButton({Key? key, required this.onPressed}) : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white, // white background
+        foregroundColor: Colors.black, // text color
+        minimumSize: Size(double.infinity, 50),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          side: BorderSide(color: Colors.grey.shade300),
+        ),
+        elevation: 2,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/google_logo.png',
+            height: 24.0,
+          ),
+          SizedBox(width: 12),
+          Text(
+            'Continue with Google',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Define your custom yellow. Ensure the full 8-digit hex code is provided.
+    final Color customYellow = Color(0xFFFADC44); 
+
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 60),
-              // Logo placeholder
-              Icon(Icons.sports_rugby, size: 100, color: Colors.blue),
-              SizedBox(height: 20),
-              Text(
-                'Welcome to RefereeIQ',
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600, color: Colors.black),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              Text(
-                'RefereeIQ helps you easily navigate rugby laws and find answers to common referee questions.',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300, color: Colors.black),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 40),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
+      backgroundColor: customYellow,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Top left header: "RefereeIQ"
+            Positioned(
+              top: 0,
+              left: 16,
+              child: Text(
+                'RefereeIQ',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
-              SizedBox(height: 10),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to the SofiaScreen on login.
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => SofiaScreen()),
-                  );
-                },
-                child: Text("Login"),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // TODO: Handle Google sign-in if needed.
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  side: BorderSide(color: Colors.grey),
-                ),
-                child: Row(
+            ),
+            // Lower third section
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  // Use mainAxisSize.min so that the column only takes up as much vertical space as needed.
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.account_circle, color: Colors.grey),
-                    SizedBox(width: 10),
-                    Text('Continue with Google', style: TextStyle(color: Colors.black)),
+                    // Line 1: Welcome text
+                    Text(
+                      'Welcome to RefereeIQ',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 8),
+                    // Line 2: Description text
+                    Text(
+                      'Helping you navigate rugby laws and find answers to your questions & scenarios',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black87,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20),
+                    // Continue with Google Button
+                    GoogleSignInButton(
+                      onPressed: () {
+                        // TODO: Implement Google sign-in functionality.
+                      },
+                    ),
+                    SizedBox(height: 15),
+                    // Sign Up with Email Button (full width)
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // TODO: Navigate to sign-up screen if needed.
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          padding: EdgeInsets.symmetric(vertical: 14),
+                          minimumSize: Size(double.infinity, 50),
+                        ),
+                        child: Text(
+                          'Sign Up with Email',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    // Continue as Guest Link
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SofiaScreen()),
+                        );
+                      },
+                      child: Text(
+                        "Continue as guest",
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 15),
-              ElevatedButton(
-                onPressed: () {
-                  // TODO: Navigate to sign-up screen if needed.
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                ),
-                child: Text('Sign Up with Email', style: TextStyle(color: Colors.white)),
-              ),
-              SizedBox(height: 15),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SofiaScreen()),
-                  );
-                },
-                child: Text("Continue as guest"),
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

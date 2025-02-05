@@ -45,6 +45,13 @@ class ChatFlow {
       "response": "Here’s a video explaining mitigation factors:",
       "videoUrl": "https://example.com/video/mitigation-factors",
     },
+    // New entry for a red card question:
+    "what is a red card?": {
+      "response": "A red card is issued for serious foul play and results in the player's immediate expulsion from the game.",
+      "links": [
+        {"text": "Learn more about red cards", "url": "https://example.com/red-card-info"}
+      ]
+    },
   };
 
   // Retrieves the response for a given input.
