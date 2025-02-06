@@ -43,3 +43,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/Users/jxhale/Documents/github_repos/referee_iq/backend/referee-iq-firebase-adminsdk-fbsvc-470a31e75a.json
