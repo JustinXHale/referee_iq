@@ -18,7 +18,7 @@ class _SofiaScreenState extends State<SofiaScreen> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: 1);
+    _tabController = TabController(length: 4, vsync: this, initialIndex: 1); // Set "Ask Sofia" as default tab
   }
 
   @override
@@ -143,7 +143,8 @@ class _SofiaScreenState extends State<SofiaScreen> with SingleTickerProviderStat
               controller: _tabController,
               children: [
                 SourcesScreen(),       // Tab 1: Sources
-                Column(                // Tab 2: Ask Sofia
+                // Tab 2: Ask Sofia
+                Column(
                   children: [
                     // Chat message area.
                     Expanded(
@@ -170,7 +171,7 @@ class _SofiaScreenState extends State<SofiaScreen> with SingleTickerProviderStat
                         },
                       ),
                     ),
-                    // Input field
+                    // Input field with flexible text wrapping
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
@@ -191,8 +192,10 @@ class _SofiaScreenState extends State<SofiaScreen> with SingleTickerProviderStat
                             },
                           ),
                         ),
+                        maxLines: null, // Allow the text field to grow vertically
+                        minLines: 1,    // Start with 1 line
                       ),
-                    ),
+                    )
                   ],
                 ),
                 ChallengeScreen(),     // Tab 3: Challenge
