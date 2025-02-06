@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../services/network_helper.dart'; // For network requests
+import 'package:http/http.dart' as http;  // Importing the http package
+import 'dart:convert';
 import 'sources_screen.dart';         // For the Sources Tab
 import 'shop_screen.dart';            // For the Shop Tab (placeholder)
 import 'fav_screen.dart';             // For the Fav Tab (placeholder)
@@ -47,7 +48,9 @@ class _SofiaScreenState extends State<SofiaScreen> with SingleTickerProviderStat
         // Add Sofia's response to the list
         messages.add({
           "type": "sofia",
-          "text": response['response'],  // Assuming the backend returns a 'response' key
+          "text": response['response'],  // The main response
+          "law_reference": response['law_reference'], // Law Reference
+          "source_link": response['source_link'], // Source Link to World Rugby
         });
       });
     } catch (error) {
@@ -56,6 +59,32 @@ class _SofiaScreenState extends State<SofiaScreen> with SingleTickerProviderStat
         // Handle error (Optional: display an error message)
         messages.add({"type": "sofia", "text": "Sorry, something went wrong!"});
       });
+    }
+  }
+
+  // Function to send the query to FastAPI
+  Future<Map<String, dynamic>> sendQueryToBackend(String query) async {
+    final url = 'http://10.0.2.2:8000/query';  // Change to this when using Android Emulator
+
+    try {
+      print("Sending query: $query");  // Debugging: Log the query being sent
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'query': query}),
+      );
+
+      print("Received response: ${response.body}");  // Debugging: Log the response from backend
+
+      if (response.statusCode == 200) {
+        // Parse the JSON response
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to load response');
+      }
+    } catch (e) {
+      print("Error: $e");  // Debugging: Log any error
+      throw Exception('Error: $e');
     }
   }
 
@@ -179,10 +208,40 @@ class _SofiaScreenState extends State<SofiaScreen> with SingleTickerProviderStat
                               decoration: BoxDecoration(
                                 color: message["type"] == "user"
                                     ? Colors.blue[100]
-                                    : Colors.grey[300],
+                                    : Color(0xFF212121),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              child: Text(message["text"]!),
+                              child: Column(
+                                crossAxisAlignment: message["type"] == "user"
+                                    ? CrossAxisAlignment.end
+                                    : CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    message["text"]!,  // Display the main response text
+                                    style: TextStyle(
+                                      color: message["type"] == "user"
+                                          ? Colors.black // Change text color for user message
+                                          : Colors.white, // Change text color for Sofia's response
+                                    ),
+                                  ),
+                                  if (message["type"] == "sofia") ...[
+                                    if (message["law_reference"] != null) ...[
+                                      SizedBox(height: 5),
+                                      Text(
+                                        "Law Reference: ${message["law_reference"]}",
+                                        style: TextStyle(fontSize: 12, color: Colors.white),
+                                      ),
+                                    ],
+                                    if (message["source_link"] != null) ...[
+                                      SizedBox(height: 5),
+                                      Text(
+                                        "Source: ${message["source_link"]}",
+                                        style: TextStyle(fontSize: 12, color: Colors.blue),
+                                      ),
+                                    ],
+                                  ],
+                                ],
+                              ),
                             ),
                           );
                         },
