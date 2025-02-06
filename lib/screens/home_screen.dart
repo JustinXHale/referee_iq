@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'sofia_screen.dart';
+import 'sofia_screen.dart'; // Import SofiaScreen
 
 /// Custom Google Sign-In Button widget (inline)
 class GoogleSignInButton extends StatelessWidget {
@@ -99,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                     // Continue with Google Button
                     GoogleSignInButton(
                       onPressed: () {
-                        // TODO: Implement Google sign-in functionality.
+                        // Implement Google sign-in functionality.
                       },
                     ),
                     SizedBox(height: 15),
@@ -130,10 +130,7 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => SofiaScreen()),
                         );
                       },
-                      child: Text(
-                        "Continue as guest",
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
+                      child: Text("Continue as guest", style: TextStyle(fontSize: 16, color: Colors.black)),
                     ),
                   ],
                 ),
