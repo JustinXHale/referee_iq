@@ -1,0 +1,32 @@
+name: referee_iq
+description: A smart assistant app for referees and rugby fans.
+
+# Flutter version
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.0.4
+  url_launcher: ^6.1.14
+  http: ^0.13.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/fonts/
+
+  fonts:
+    - family: Alexandria
+      fonts:
+        - asset: assets/fonts/Alexandria-Regular.ttf
+        - asset: assets/fonts/Alexandria-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/Alexandria-Light.ttf
+          weight: 300
