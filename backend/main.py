@@ -2,11 +2,22 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from fastapi import FastAPI
 from pydantic import BaseModel
-from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv  # Import dotenv to load environment variables
+import os  # For reading environment variables
 
-# Initialize Firebase Admin SDK
-cred = credentials.Certificate("referee-iq-firebase-adminsdk-fbsvc-470a31e75a.json")
-firebase_admin.initialize_app(cred)
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the Firebase credentials path from the environment variable
+firebase_credentials_path = os.getenv("FIREBASE_CREDENTIALS_PATH")
+
+# Initialize Firebase Admin SDK using credentials from the environment variable
+if firebase_credentials_path:
+    cred = credentials.Certificate(firebase_credentials_path)
+    firebase_admin.initialize_app(cred)
+else:
+    raise ValueError("FIREBASE_CREDENTIALS_PATH environment variable not set")
 
 # Initialize Firestore
 db = firestore.client()

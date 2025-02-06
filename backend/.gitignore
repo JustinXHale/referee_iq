@@ -1,0 +1,11 @@
+# Firebase and environment files
+.env
+referee-iq-firebase-adminsdk-fbsvc-c14743b87e.json
+
+# Build artifacts
+*.apk
+*.jar
+*.bin
+*.dill
+*.properties
+build/
